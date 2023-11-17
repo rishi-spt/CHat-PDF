@@ -1,5 +1,5 @@
 pipeline {
-   git branch: 'main', url: 'https://github.com/rishi-spt/CHat-PDF'
+   git branch: 'main', url: 'https://github.com/rishi-spt/CHat-PDF/blob/main/jenkinsfile'
 
     agent any
 
