@@ -4,11 +4,11 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = 'your-aws-region'
-        AWS_ACCESS_KEY_ID     = credentials('your-aws-access-key-id')
-        AWS_SECRET_ACCESS_KEY = credentials('your-aws-secret-access-key')
-        APPLICATION_NAME      = 'YourStreamlitApp'
-        ENVIRONMENT_NAME      = 'YourEnvironmentName'
+        AWS_REGION = 'us-east-1'
+        AWS_ACCESS_KEY_ID     = credentials('i-0bcc847e7d56029d3')
+        AWS_SECRET_ACCESS_KEY = credentials('MIIEogIBAAKCAQEAnaG/UDzlw5EYh65TRVb3MUzfPG9KwJJAIl5QycOyDhK0dQXv')
+        APPLICATION_NAME      = 'ChatPDF'
+        ENVIRONMENT_NAME      = 'ENV-chatPDF'
     }
 
     stages {
@@ -21,7 +21,7 @@ pipeline {
         stage('Build and Package') {
             steps {
                 script {
-                    // Perform any necessary build steps for your Streamlit app
+                    // build steps for your Streamlit app
                     sh 'pip install -r requirements.txt'
                 }
             }
@@ -31,8 +31,8 @@ pipeline {
             steps {
                 script {
                     // Deploy the app to AWS Elastic Beanstalk
-                    sh "eb init -p python-3.7 ${APPLICATION_NAME} --region ${AWS_REGION}"
-                    sh "eb create ${ENVIRONMENT_NAME}"
+                    sh "eb init -p python-3.7 ${ChatPDF} --region ${us-east-1}"
+                    sh "eb create ${ENV-chatPDF}"
                 }
             }
         }
