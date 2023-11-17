@@ -1,3 +1,49 @@
 pipeline {
    git branch: 'main', url: 'https://github.com/rishi-spt/CHat-PDF'
+
+    agent any
+
+    environment {
+        AWS_REGION = 'your-aws-region'
+        AWS_ACCESS_KEY_ID     = credentials('your-aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('your-aws-secret-access-key')
+        APPLICATION_NAME      = 'YourStreamlitApp'
+        ENVIRONMENT_NAME      = 'YourEnvironmentName'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build and Package') {
+            steps {
+                script {
+                    // Perform any necessary build steps for your Streamlit app
+                    sh 'pip install -r requirements.txt'
+                }
+            }
+        }
+
+        stage('Deploy to Elastic Beanstalk') {
+            steps {
+                script {
+                    // Deploy the app to AWS Elastic Beanstalk
+                    sh "eb init -p python-3.7 ${APPLICATION_NAME} --region ${AWS_REGION}"
+                    sh "eb create ${ENVIRONMENT_NAME}"
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed!'
+        }
+    }
 }
